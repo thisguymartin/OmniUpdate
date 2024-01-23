@@ -12,12 +12,15 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-  app.UseSwagger();  
+  //  http://localhost:5206/swagger/index.html
+  app.UseSwagger();
   app.UseSwaggerUI();
+  Console.WriteLine("Swagger: http://localhost:5206/swagger/index.html");
+
 }
 
 app.UseHttpsRedirection();
 
 app.MapUserEndpoints();
-
 app.Run();
+
