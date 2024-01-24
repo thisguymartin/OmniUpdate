@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GameStore.Api.Repositories;
 using OmniUpdate.Api.Entities;
 
 namespace OmniUpdate.Api.Endpoints;
@@ -17,7 +18,7 @@ public static class UserEndpoints
 
         var group = routes.MapGroup("/user");
 
-        group.MapGet("/", () => users);
+        group.MapGet("/", (IUserRepository repository) => repository.GetAll());
 
         group.MapGet("/{id}", (int id) =>
         {
