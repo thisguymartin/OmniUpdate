@@ -1,6 +1,9 @@
+using System.Data;
 using GameStore.Api.Repositories;
+using Npgsql;
 using OmniUpdate.Api.Dtos;
 using OmniUpdate.Api.Entities;
+using Dapper;
 
 namespace OmniUpdate.Api.Endpoints;
 
@@ -11,9 +14,25 @@ public static class UserEndpoints
 
         const string GetUserEndPointName = "GetUser";
 
+        
+
         var group = routes.MapGroup("/user").WithParameterValidation();
 
-        group.MapGet("/", (IUserRepository repository) => repository.GetAll().Select(user => user.AsDto()));
+        group.MapGet("/", async (ILogger<User> logger, IUserRepository repository) =>
+        {
+            
+        await using var connection = new NpgsqlConnection("Host=localhost; Database=OmniUpdate; Username=OmniUpdate; Password=OmniUpdate");
+
+        var users = await connection.QueryAsync<User>("select * from users");
+
+
+            foreach (var user in users)
+            {
+                logger.LogWarning(user.Name);
+
+            }
+            return users;
+        });
 
         group.MapGet("/{id}", (IUserRepository repository, int id) =>
         {
