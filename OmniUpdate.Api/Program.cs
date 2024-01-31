@@ -1,6 +1,11 @@
+using GameStore.Api.Repositories;
 using OmniUpdate.Api.Endpoints;
+using OmniUpdate.Api.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSingleton<IUserRepository, UserDbRepository>();
+
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

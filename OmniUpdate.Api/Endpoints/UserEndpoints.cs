@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using GameStore.Api.Repositories;
+using OmniUpdate.Api.Dtos;
 using OmniUpdate.Api.Entities;
 
 namespace OmniUpdate.Api.Endpoints;
@@ -12,17 +9,15 @@ public static class UserEndpoints
     public static RouteGroupBuilder MapUserEndpoints(this IEndpointRouteBuilder routes)
     {
 
-        List<User> users = new() { };
-
         const string GetUserEndPointName = "GetUser";
 
-        var group = routes.MapGroup("/user");
+        var group = routes.MapGroup("/user").WithParameterValidation();
 
-        group.MapGet("/", (IUserRepository repository) => repository.GetAll());
+        group.MapGet("/", (IUserRepository repository) => repository.GetAll().Select(user => user.AsDto()));
 
-        group.MapGet("/{id}", (int id) =>
+        group.MapGet("/{id}", (IUserRepository repository, int id) =>
         {
-            User? user = users.Find(e => e.Id == id);
+            User? user = repository.Get(id);
             if (user == null)
             {
                 return Results.NoContent();
@@ -31,24 +26,40 @@ public static class UserEndpoints
             return Results.Ok<User>(user);
         });
 
-        group.MapPost("/", (User user) =>
+        group.MapPost("/", (IUserRepository repository, CreateUserDto userDto) =>
         {
-            user.Id = users.Max(user => user.Id) + 1;
-            users.Add(user);
+ 
+            Random rnd = new Random();
+           
+            User user = new()
+            {
+                Id = 212 * rnd.Next(1, 100),
+                Name = userDto.Name,
+                ImageUrl = userDto.ImageUrl,
+                CreateDate = DateTime.Now,
+                UpdateDate = DateTime.Now,
+            };
+
+            repository.Create(user);
+
             return Results.CreatedAtRoute(GetUserEndPointName, new { id = user.Id }, user);
         });
 
-        group.MapPut("/{id}", (int id, User userInput) =>
+        group.MapPut("/{id}", (IUserRepository repository, int id, UpdateUserDto updateUserDto) =>
         {
-            User? user = users.Find(e => e.Id == id);
+
+            User? user = repository.Get(id);
             if (user == null)
             {
                 return Results.NoContent();
             }
 
-            user.ImageUrl = userInput.ImageUrl;
-            user.Name = userInput.Name;
+            user.ImageUrl = updateUserDto.ImageUrl;
+            user.Name = updateUserDto.Name;
             user.UpdateDate = DateTime.UtcNow;
+
+            repository.Update(user);
+
             return Results.NoContent();
         });
 
