@@ -1,4 +1,6 @@
+using Dapper;
 using GameStore.Api.Repositories;
+using OmniUpdate.Api.Data;
 using OmniUpdate.Api.Endpoints;
 using OmniUpdate.Api.Repositories;
 
@@ -13,7 +15,19 @@ builder.Services.AddSingleton<IUserRepository, UserDbRepository>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddScoped<IDataAccess, DataAccess>();
+
 var app = builder.Build();
+
+var configuration = new ConfigurationBuilder()
+    .SetBasePath(builder.Environment.ContentRootPath)
+    .AddJsonFile("appsettings.json")
+    .Build();
+
+string connectionString = configuration.GetConnectionString("DatabaseConnection");
+
+builder.Services.Configure<ConnectionString>(builder.Configuration.GetSection("ConnectionStrings"));
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
