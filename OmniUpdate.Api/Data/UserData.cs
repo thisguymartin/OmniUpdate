@@ -15,9 +15,13 @@ namespace OmniUpdate.Api.Data
             _db = db;
         }
 
+        public Task<IEnumerable<User>> GetUsers() =>
+            _db.LoadData<User, dynamic>("select * from users where id = $1", new { });
 
-        public Task<IEnumerable<User>> GetUsers() => {
-            _db.LoadData<User, dynamic>()
+        public async Task<User?> GetUser(int id)
+        {
+            var user = await _db.LoadData<User, dynamic>("SELECT * FROM users WHERE id = @Id", new { Id = id });
+            return user.FirstOrDefault();
         }
 
     }

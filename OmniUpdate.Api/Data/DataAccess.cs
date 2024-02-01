@@ -5,7 +5,7 @@ using Npgsql;
 
 namespace OmniUpdate.Api.Data;
 
-public class DataAccess: IDataAccess
+public class DataAccess : IDataAccess
 {
     private readonly IConfiguration _config;
 
@@ -18,14 +18,15 @@ public class DataAccess: IDataAccess
                                                      string connectionId = "Default")
     {
         using IDbConnection connection = new NpgsqlConnection(_config.GetConnectionString(connectionId));
-        return await connection.QueryAsync<T>(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
+        return await connection.QueryAsync<T>(storedProcedure, parameters, commandType: CommandType.Text);
     }
 
     public async Task SaveData<T>(string storedProcedure, T parameters,
                                                      string connectionId = "Default")
     {
-       using IDbConnection connection = new NpgsqlConnection(_config.GetConnectionString(connectionId));
-        await connection.ExecuteAsync(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
+        using IDbConnection connection = new NpgsqlConnection(_config.GetConnectionString(connectionId));
+        await connection.ExecuteAsync(storedProcedure, parameters, commandType: CommandType.Text);
     }
+
 
 }
