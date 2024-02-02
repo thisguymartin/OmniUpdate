@@ -6,7 +6,7 @@ using OmniUpdate.Api.Entities;
 
 namespace OmniUpdate.Api.Data
 {
-    public class UserData
+    public class UserData: IUserData
     {
         public readonly IDataAccess _db;
 

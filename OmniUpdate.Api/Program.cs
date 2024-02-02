@@ -1,33 +1,20 @@
-using Dapper;
+global using OmniUpdate.Api.Data;
 using GameStore.Api.Repositories;
-using OmniUpdate.Api.Data;
 using OmniUpdate.Api.Endpoints;
 using OmniUpdate.Api.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddSingleton<IUserRepository, UserDbRepository>();
-
-
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IDataAccess, DataAccess>();
+builder.Services.AddSingleton<IUserRepository, UserDbRepository>();
+builder.Services.AddSingleton<IDataAccess, DataAccess>();
+builder.Services.AddSingleton<IUserData, UserData>();
 
 var app = builder.Build();
-
-var configuration = new ConfigurationBuilder()
-    .SetBasePath(builder.Environment.ContentRootPath)
-    .AddJsonFile("appsettings.json")
-    .Build();
-
-string connectionString = configuration.GetConnectionString("DatabaseConnection");
-
-builder.Services.Configure<ConnectionString>(builder.Configuration.GetSection("ConnectionStrings"));
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -18,15 +18,15 @@ public static class UserEndpoints
 
         var group = routes.MapGroup("/user").WithParameterValidation();
 
-        group.MapGet("/", async (ILogger<User> logger, IUserRepository repository) =>
+        group.MapGet("/", async (ILogger<User> logger, IUserData data) =>
         {
             
         await using var connection = new NpgsqlConnection("Host=localhost; Database=OmniUpdate; Username=OmniUpdate; Password=OmniUpdate");
 
-        var users = await connection.QueryAsync<User>("select * from users");
+            var users = data.GetUsers();
 
 
-            foreach (var user in users)
+            foreach (var user in users.Result)
             {
                 logger.LogWarning(user.Name);
 
