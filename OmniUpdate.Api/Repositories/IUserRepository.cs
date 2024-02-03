@@ -1,10 +1,15 @@
 using OmniUpdate.Api.Entities;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace OmniUpdate.Api.Data;
-
-public interface IUserRepository
+namespace OmniUpdate.Api.Repositories
 {
-    Task<IEnumerable<User>> GetUsers();
-    Task<User?> GetUser(int id);
-    void CreateUser(User user);
+    public interface IUserRepository
+    {
+        Task<IEnumerable<User>> GetUsers();
+        Task<User?> GetUser(int id);
+        Task CreateUser(User user);
+        Task UpdateUser(User user);
+        Task DeleteUser(int id);
+    }
 }
