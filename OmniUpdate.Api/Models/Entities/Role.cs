@@ -5,4 +5,3 @@ public enum Role
     Admin,
     User
 }
-// write me a class

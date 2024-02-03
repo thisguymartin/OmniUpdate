@@ -5,11 +5,11 @@ using Npgsql;
 
 namespace OmniUpdate.Api.Data;
 
-public class DataAccess : IDataAccess
+public class DapperContext : IDapperContext
 {
     private readonly IConfiguration _config;
 
-    public DataAccess(IConfiguration config)
+    public DapperContext(IConfiguration config)
     {
         _config = config;
     }
