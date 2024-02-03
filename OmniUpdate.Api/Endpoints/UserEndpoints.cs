@@ -14,7 +14,7 @@ public static class UserEndpoints
 
         var group = routes.MapGroup("/user").WithParameterValidation();
 
-        group.MapGet("/", async (ILogger<User> logger, IUserService userService) =>
+        group.MapGet("/", async (IUserService userService) =>
         {
             return await userService.GetAll();
         });

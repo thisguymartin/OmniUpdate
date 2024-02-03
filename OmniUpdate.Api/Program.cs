@@ -4,15 +4,20 @@ using OmniUpdate.Api.Repositories;
 using OmniUpdate.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddSingleton<DapperContext>(); 
+
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddTransient<IUserService, UserService>();
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddTransient<IUserService, UserService>();
+
+builder.Services.AddSingleton<DapperContext>(); 
+
+
 
 var app = builder.Build();
 
