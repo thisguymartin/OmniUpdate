@@ -2,6 +2,7 @@ using Microsoft.Extensions.Options;
 using OmniUpdate.Api.Data;
 using OmniUpdate.Api.Dtos;
 using OmniUpdate.Api.Entities;
+using OmniUpdate.Api.Models.Entities;
 using OmniUpdate.Api.Services;
 
 namespace OmniUpdate.Api.Endpoints;
@@ -30,7 +31,7 @@ public static class UserEndpoints
             {
                 return Results.NoContent();
             }
-            _logger.LogInformation("Got User", user);
+           _logger.LogInformation("Got User", user);
             return Results.Ok(user);
         });
 

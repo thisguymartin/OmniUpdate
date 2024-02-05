@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using OmniUpdate.Api.Data;
 using OmniUpdate.Api.Endpoints;
 using OmniUpdate.Api.Repositories;
@@ -17,6 +18,11 @@ builder.Services.AddSwaggerGen();
 
 
 builder.Services.AddSingleton<DapperContext>();
+
+var Configuration = builder.Configuration;
+builder.Services.AddDbContext<AppDBContext>(options =>
+        options.UseNpgsql(Configuration.GetConnectionString("Default")));
+
 
 var app = builder.Build();
 

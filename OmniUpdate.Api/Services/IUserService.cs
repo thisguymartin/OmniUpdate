@@ -1,5 +1,5 @@
 using OmniUpdate.Api.Data;
-using OmniUpdate.Api.Entities;
+using OmniUpdate.Api.Models.Entities;
 
 namespace OmniUpdate.Api.Services
 {

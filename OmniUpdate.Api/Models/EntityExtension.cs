@@ -1,4 +1,5 @@
 using OmniUpdate.Api.Dtos;
+using OmniUpdate.Api.Models.Entities;
 
 namespace OmniUpdate.Api.Entities;
 

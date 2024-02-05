@@ -1,5 +1,3 @@
-using OmniUpdate.Api.Entities;
-
 namespace OmniUpdate.Api.Models.Entities
 {
 

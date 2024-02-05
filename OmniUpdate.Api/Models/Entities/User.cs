@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace OmniUpdate.Api.Entities;
+namespace OmniUpdate.Api.Models.Entities;
 
 public class User
 {

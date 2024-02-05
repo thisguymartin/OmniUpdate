@@ -1,4 +1,5 @@
 using OmniUpdate.Api.Entities;
+using OmniUpdate.Api.Models.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

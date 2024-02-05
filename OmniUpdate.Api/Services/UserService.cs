@@ -1,7 +1,5 @@
-using OmniUpdate.Api.Entities;
+using OmniUpdate.Api.Models.Entities;
 using OmniUpdate.Api.Repositories;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace OmniUpdate.Api.Services
 {
