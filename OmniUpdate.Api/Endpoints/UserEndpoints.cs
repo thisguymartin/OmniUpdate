@@ -8,25 +8,29 @@ namespace OmniUpdate.Api.Endpoints;
 
 public static class UserEndpoints
 {
+
     public static RouteGroupBuilder MapUserEndpoints(this IEndpointRouteBuilder routes)
     {
         const string GetUserEndPointName = "GetUser";
 
-        var group = routes.MapGroup("/user").WithParameterValidation();
+        var group = routes.MapGroup("/users").WithParameterValidation();
 
-        group.MapGet("/", async (IUserService userService) =>
+        group.MapGet("/", async (ILogger<User> _logger, IUserService userService) =>
         {
-            return await userService.GetAll();
+            _logger.LogDebug("Getting Users");
+            var users = await userService.GetAll();
+            _logger.LogDebug("Got Users", users);
+            return users;
         });
 
-        group.MapGet("/{id}", async (int id, IUserService userService) =>
+        group.MapGet("/{id}", async (ILogger<User> _logger, int id, IUserService userService) =>
         {
             User? user = await userService.Get(id);
             if (user == null)
             {
                 return Results.NoContent();
             }
-
+           _logger.LogInformation("Got User", user);
             return Results.Ok(user);
         });
 
