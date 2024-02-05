@@ -30,7 +30,7 @@ public static class UserEndpoints
             {
                 return Results.NoContent();
             }
-           _logger.LogInformation("Got User", user);
+            _logger.LogInformation("Got User", user);
             return Results.Ok(user);
         });
 

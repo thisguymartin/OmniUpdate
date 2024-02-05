@@ -17,18 +17,6 @@ builder.Services.AddSwaggerGen();
 
 
 builder.Services.AddSingleton<DapperContext>();
-builder.Logging.AddJsonConsole(options =>
-{
-    options.IncludeScopes = false;
-    options.TimestampFormat = "hh:mm:ss ";
-    options.JsonWriterOptions = new JsonWriterOptions
-    {
-        Indented = true,
-    };
-});
-
-
-
 
 var app = builder.Build();
 
