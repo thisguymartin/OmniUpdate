@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace OmniUpdate.Api.Entities;
 
@@ -15,5 +15,4 @@ public class User
     public DateTime CreateDate { get; set; }
     [Timestamp]
     public DateTime UpdateDate { get; set; }
-
 }

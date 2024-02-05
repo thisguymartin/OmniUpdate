@@ -1,73 +1,58 @@
-using System.Data;
-using GameStore.Api.Repositories;
-using Npgsql;
+using Microsoft.Extensions.Options;
+using OmniUpdate.Api.Data;
 using OmniUpdate.Api.Dtos;
 using OmniUpdate.Api.Entities;
-using Dapper;
+using OmniUpdate.Api.Services;
 
 namespace OmniUpdate.Api.Endpoints;
 
 public static class UserEndpoints
 {
+
     public static RouteGroupBuilder MapUserEndpoints(this IEndpointRouteBuilder routes)
     {
-
         const string GetUserEndPointName = "GetUser";
 
-        
+        var group = routes.MapGroup("/users").WithParameterValidation();
 
-        var group = routes.MapGroup("/user").WithParameterValidation();
-
-        group.MapGet("/", async (ILogger<User> logger, IUserRepository repository) =>
+        group.MapGet("/", async (ILogger<User> _logger, IUserService userService) =>
         {
-            
-        await using var connection = new NpgsqlConnection("Host=localhost; Database=OmniUpdate; Username=OmniUpdate; Password=OmniUpdate");
-
-        var users = await connection.QueryAsync<User>("select * from users");
-
-
-            foreach (var user in users)
-            {
-                logger.LogWarning(user.Name);
-
-            }
+            _logger.LogDebug("Getting Users");
+            var users = await userService.GetAll();
+            _logger.LogDebug("Got Users", users);
             return users;
         });
 
-        group.MapGet("/{id}", (IUserRepository repository, int id) =>
+        group.MapGet("/{id}", async (ILogger<User> _logger, int id, IUserService userService) =>
         {
-            User? user = repository.Get(id);
+            User? user = await userService.Get(id);
             if (user == null)
             {
                 return Results.NoContent();
             }
-
-            return Results.Ok<User>(user);
+           _logger.LogInformation("Got User", user);
+            return Results.Ok(user);
         });
 
-        group.MapPost("/", (IUserRepository repository, CreateUserDto userDto) =>
+        group.MapPost("/", async (CreateUserDto userDto, IUserService userService) =>
         {
- 
-            Random rnd = new Random();
-           
             User user = new()
             {
-                Id = 212 * rnd.Next(1, 100),
+                Id = 3,
                 Name = userDto.Name,
                 ImageUrl = userDto.ImageUrl,
                 CreateDate = DateTime.Now,
                 UpdateDate = DateTime.Now,
             };
 
-            repository.Create(user);
+            await userService.Create(user);
 
             return Results.CreatedAtRoute(GetUserEndPointName, new { id = user.Id }, user);
         });
 
-        group.MapPut("/{id}", (IUserRepository repository, int id, UpdateUserDto updateUserDto) =>
+        group.MapPut("/{id}", async (int id, UpdateUserDto updateUserDto, IUserService userService) =>
         {
-
-            User? user = repository.Get(id);
+            User? user = await userService.Get(id);
             if (user == null)
             {
                 return Results.NoContent();
@@ -77,8 +62,14 @@ public static class UserEndpoints
             user.Name = updateUserDto.Name;
             user.UpdateDate = DateTime.UtcNow;
 
-            repository.Update(user);
+            await userService.Update(user);
 
+            return Results.NoContent();
+        });
+
+        group.MapDelete("/{id}", async (int id, IUserService userService) =>
+        {
+            await userService.Delete(id);
             return Results.NoContent();
         });
 

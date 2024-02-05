@@ -1,12 +1,15 @@
 using OmniUpdate.Api.Entities;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace GameStore.Api.Repositories;
-
-public interface IUserRepository
+namespace OmniUpdate.Api.Repositories
 {
-    void Create(User game);
-    void Delete(int id);
-    User? Get(int id);
-    IEnumerable<User> GetAll();
-    void Update(User updatedGame);
+    public interface IUserRepository
+    {
+        Task<IEnumerable<User>> GetUsers();
+        Task<User?> GetUser(int id);
+        Task CreateUser(User user);
+        Task UpdateUser(User user);
+        Task DeleteUser(int id);
+    }
 }
