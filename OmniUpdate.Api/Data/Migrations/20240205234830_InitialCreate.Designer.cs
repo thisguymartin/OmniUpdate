@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace OmniUpdate.Api.Data.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240205234304_InitialCreate")]
+    [Migration("20240205234830_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
