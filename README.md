@@ -2,8 +2,6 @@
 
 ## Prerequisites
 
-Before proceeding, ensure you have the following tools installed on your machine:
-
 - **.NET SDK**: Required for running the .NET backend.
 - **Node.js**: Necessary for the Vue.js frontend.
 - **Rust**: Required for Tauri, a framework for building desktop applications with web technologies.
