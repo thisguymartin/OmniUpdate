@@ -1,4 +1,4 @@
-# OmniUpdate Project Detailed Documentation
+# OmniUpdate
 
 ## Prerequisites
 
