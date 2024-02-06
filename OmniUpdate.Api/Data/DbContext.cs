@@ -10,11 +10,11 @@ public class AppDBContext : DbContext
     public DbSet<Event> Event { get; set; }
     public DbSet<EventIntegration> EventIntegration { get; set; }
 
-        public DbSet<Integration> Integration { get; set; }
+    public DbSet<Integration> Integration { get; set; }
 
-                public DbSet<UserIntegration> UserIntegration { get; set; }
+    public DbSet<UserIntegration> UserIntegration { get; set; }
 
 
 
-   
+
 }
