@@ -94,3 +94,6 @@ Entity Framework Core is utilized for database migration management in the .NET 
 ### Additional Resources
 
 - For more in-depth information on Entity Framework Core and its migration capabilities, refer to the [Entity Framework Core documentation](https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/).
+
+
+![image](https://github.com/thisguymartin/OmniUpdate/assets/13192083/08908252-021e-44a9-af61-e0fc2d3759e0)
