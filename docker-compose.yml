@@ -2,15 +2,39 @@ version: '3.8'
 
 services:
   postgres:
-    image: postgres:latest
+    image: postgres:15-alpine
+    container_name: omniupdate-db
     environment:
       POSTGRES_DB: OmniUpdate
       POSTGRES_USER: OmniUpdate
       POSTGRES_PASSWORD: OmniUpdate
+      POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256 --auth-local=scram-sha-256"
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./scripts:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U OmniUpdate -d OmniUpdate"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: omniupdate-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
 
 volumes:
   postgres_data:
+  redis_data:

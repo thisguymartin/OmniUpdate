@@ -14,7 +14,13 @@ public class AppDBContext : DbContext
 
     public DbSet<UserIntegration> UserIntegration { get; set; }
 
-
-
-
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<User>().ToTable("users");
+        modelBuilder.Entity<Event>().ToTable("events");
+        modelBuilder.Entity<EventIntegration>().ToTable("eventintegrations");
+        modelBuilder.Entity<Integration>().ToTable("integrations");
+        modelBuilder.Entity<UserIntegration>().ToTable("userintegrations");
+        // ...add more if needed
+    }
 }
